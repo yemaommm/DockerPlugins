@@ -30,20 +30,24 @@ public class http {
         return value;
     }
 
-    public static String post(String path, String body) throws IOException {
+    public static String post(String path, byte[] body) throws IOException {
         HttpURLConnection conn = connect(path);
         conn.setRequestMethod("POST");
 
         conn.connect();
 
         OutputStream os = conn.getOutputStream();
-        os.write(body.getBytes());
+        os.write(body);
         os.flush();
 
         int code = conn.getResponseCode();
         LOGGER.info("ResponseCode: " + String.valueOf(code));
-
-        InputStream is = conn.getInputStream();
+        InputStream is = null;
+        if (code == 200){
+            is = conn.getInputStream();
+        }else{
+            is = conn.getErrorStream();
+        }
         String value = readStream(is);
 
         is.close();

@@ -3,7 +3,7 @@ package dto.docker;
 import java.util.List;
 import java.util.Map;
 
-public class Container {
+public class ContainerDto {
 
     private String Id;
     private String Command;
@@ -11,13 +11,13 @@ public class Container {
     private String Image;
     private String ImageID;
     private Map<String, String> Labels;
-    private String Mounts;
+    private List<Map<String, String>> Mounts;
     private List<String> Names;
-    private String NetworkSettings;
-    private String Ports;
+    private Object NetworkSettings;
+    private List<Map<String, String>> Ports;
     private String State;
     private String Status;
-    private String HostConfig;
+    private Map<String, String> HostConfig;
 
     public String getId() {
         return Id;
@@ -67,14 +67,6 @@ public class Container {
         Labels = labels;
     }
 
-    public String getMounts() {
-        return Mounts;
-    }
-
-    public void setMounts(String mounts) {
-        Mounts = mounts;
-    }
-
     public List<String> getNames() {
         return Names;
     }
@@ -83,19 +75,11 @@ public class Container {
         Names = names;
     }
 
-    public String getNetworkSettings() {
-        return NetworkSettings;
-    }
-
-    public void setNetworkSettings(String networkSettings) {
-        NetworkSettings = networkSettings;
-    }
-
-    public String getPorts() {
+    public List<Map<String, String>> getPorts() {
         return Ports;
     }
 
-    public void setPorts(String ports) {
+    public void setPorts(List<Map<String, String>> ports) {
         Ports = ports;
     }
 
@@ -115,11 +99,46 @@ public class Container {
         Status = status;
     }
 
-    public String getHostConfig() {
+    public List<Map<String, String>> getMounts() {
+        return Mounts;
+    }
+
+    public void setMounts(List<Map<String, String>> mounts) {
+        Mounts = mounts;
+    }
+
+    public Object getNetworkSettings() {
+        return NetworkSettings;
+    }
+
+    public void setNetworkSettings(Object networkSettings) {
+        NetworkSettings = networkSettings;
+    }
+
+    public Map<String, String> getHostConfig() {
         return HostConfig;
     }
 
-    public void setHostConfig(String hostConfig) {
+    public void setHostConfig(Map<String, String> hostConfig) {
         HostConfig = hostConfig;
+    }
+
+    @Override
+    public String toString() {
+        return "ContainerDto{" +
+                "Id='" + Id + '\'' +
+                ", Command='" + Command + '\'' +
+                ", Created=" + Created +
+                ", Image='" + Image + '\'' +
+                ", ImageID='" + ImageID + '\'' +
+                ", Labels=" + Labels +
+                ", Mounts='" + Mounts + '\'' +
+                ", Names=" + Names +
+                ", NetworkSettings='" + NetworkSettings + '\'' +
+                ", Ports='" + Ports + '\'' +
+                ", State='" + State + '\'' +
+                ", Status='" + Status + '\'' +
+                ", HostConfig='" + HostConfig + '\'' +
+                '}';
     }
 }
