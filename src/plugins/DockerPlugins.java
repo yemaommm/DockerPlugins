@@ -43,7 +43,7 @@ public class DockerPlugins {
 
 
     public List<ImageDto> getImages() throws IOException {
-        String url = host + "/images/json?all=1";
+        String url = host + "/images/json?all=0";
         String s = http.get(url);
 
         images.clear();
@@ -58,12 +58,13 @@ public class DockerPlugins {
     }
 
     public String buildImage(Project project) throws Exception {
-        String url = host + "/build";
+        String url = host + "/build?dockerfile=" + project.getBaseDir().getName() + "/Dockerfile";
+        String contentType = "application/tar";
 
         String s = BZip2Utils.bzip2(project.getBasePath());
         byte[] read = ReadFromFileUtils.read(s);
 
-        String post = http.post(url, read);
+        String post = http.post(url, read, contentType);
 
         return post;
     }

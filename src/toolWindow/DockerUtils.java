@@ -2,7 +2,9 @@ package toolWindow;
 
 import com.intellij.openapi.project.Project;
 import dto.docker.ContainerDto;
+import dto.docker.ContainerNode;
 import dto.docker.ImageDto;
+import dto.docker.ImageNode;
 import menu.DockerPopupMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -32,7 +34,7 @@ public class DockerUtils {
             name.append(", images: " + dto.getImage());
             name.append(", Status: " + dto.getStatus());
             name.append(" ]");
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode(name);
+            ContainerNode node = new ContainerNode(name.toString(), dto);
             root.add(node);
         }
         root.setAllowsChildren(true);
@@ -48,7 +50,7 @@ public class DockerUtils {
             name.append(" [");
             name.append(" Size: " + dto.getSize()/1024/1024 + "M");
             name.append(" ]");
-            DefaultMutableTreeNode node = new DefaultMutableTreeNode(name);
+            ImageNode node = new ImageNode(name.toString(), dto);
             root.add(node);
         }
         root.setAllowsChildren(true);

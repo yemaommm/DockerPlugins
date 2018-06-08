@@ -30,9 +30,13 @@ public class http {
         return value;
     }
 
-    public static String post(String path, byte[] body) throws IOException {
+    public static String post(String path, byte[] body, String contentType) throws IOException {
         HttpURLConnection conn = connect(path);
         conn.setRequestMethod("POST");
+
+        if (!"".equals(contentType)){
+            conn.setRequestProperty("Content-Type", contentType);
+        }
 
         conn.connect();
 
@@ -53,6 +57,10 @@ public class http {
         is.close();
 
         return value;
+    }
+
+    public static String post(String path, byte[] body) throws IOException {
+        return post(path, body, "");
     }
 
     public static HttpURLConnection connect(String path) throws IOException {
