@@ -24,15 +24,16 @@ public class LogTool implements ToolWindowFactory {
 
     private static DefaultMutableTreeNode containers = new DefaultMutableTreeNode("容器");
     private static DefaultMutableTreeNode images = new DefaultMutableTreeNode("镜像");
+    private static DockerPanel leftPanel = new DockerPanel(containers, images);
 
     private JSplitPane mainPanel;
-    private DockerPanel leftPanel = new DockerPanel(containers, images);
     private JBPanel rightPanel = new JBPanel();
 
     @Override
     public void createToolWindowContent(@NotNull Project project, @NotNull ToolWindow toolWindow) {
+        DockerUtils.setProject(project);
         ContentFactory factory = ContentFactory.SERVICE.getInstance();
-        Content content = factory.createContent(mainPanel, "test", false);
+        Content content = factory.createContent(mainPanel, "Panel2", false);
         toolWindow.getContentManager().addContent(content);
     }
 
@@ -54,5 +55,9 @@ public class LogTool implements ToolWindowFactory {
 
     public static DefaultMutableTreeNode getImages() {
         return images;
+    }
+
+    public static DockerPanel getLeftPanel() {
+        return leftPanel;
     }
 }

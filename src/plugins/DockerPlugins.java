@@ -4,9 +4,7 @@ import com.google.gson.*;
 import com.intellij.openapi.project.Project;
 import dto.docker.ContainerDto;
 import dto.docker.ImageDto;
-import utils.ProjectFileUtils;
-import utils.ReadFromFileUtils;
-import utils.http;
+import utils.*;
 
 import java.io.IOException;
 import java.util.ArrayList;
@@ -62,11 +60,10 @@ public class DockerPlugins {
     public String buildImage(Project project) throws Exception {
         String url = host + "/build";
 
-        String s = ProjectFileUtils.toTar(project);
+        String s = BZip2Utils.bzip2(project.getBasePath());
         byte[] read = ReadFromFileUtils.read(s);
 
         String post = http.post(url, read);
-        System.out.println(post);
 
         return post;
     }

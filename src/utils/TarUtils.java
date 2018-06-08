@@ -51,6 +51,7 @@ public class TarUtils {
         TarArchiveOutputStream taos = new TarArchiveOutputStream(
                 new FileOutputStream(destFile));
 
+//        base = srcFile.getName();
         archive(srcFile, taos, BASE_DIR);
 
         taos.flush();
@@ -95,6 +96,8 @@ public class TarUtils {
         return archive(srcFile);
     }
 
+//    private static String base = "";
+
     /**
      * 归档
      *
@@ -108,6 +111,7 @@ public class TarUtils {
      */
     private static void archive(File srcFile, TarArchiveOutputStream taos,
                                 String basePath) throws Exception {
+//        basePath = basePath.replace(base, "");
         if (srcFile.isDirectory()) {
             archiveDir(srcFile, taos, basePath);
         } else {

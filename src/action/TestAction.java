@@ -34,7 +34,8 @@ public class TestAction extends AnAction {
         testComponent.sayHello();
 
         try {
-            DockerUtils.buildImage(e.getProject());
+            String s = DockerUtils.buildImage();
+            System.out.println(s);
         } catch (Exception e1) {
             e1.printStackTrace();
         }

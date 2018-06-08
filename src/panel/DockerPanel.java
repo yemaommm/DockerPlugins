@@ -20,6 +20,8 @@ public class DockerPanel extends JBScrollPane {
 
     private DefaultMutableTreeNode containers;
     private DefaultMutableTreeNode images;
+    //构造一个treeModel 对象，进行刷新树操作
+    private DefaultTreeModel dt;
     private DockerPopupMenu popupMenu = new DockerPopupMenu("工具栏");
     private Tree tree1;
 
@@ -74,8 +76,8 @@ public class DockerPanel extends JBScrollPane {
         //定义根节点下面的子节点
         root.add(containers);
         root.add(images);
-        //构造一个treeModel 对象，进行刷新树操作
-        DefaultTreeModel dt = new DefaultTreeModel(root);
+
+        dt = new DefaultTreeModel(root);
         tree1 = new Tree(dt);
         this.setVisible(true);
 
@@ -96,5 +98,13 @@ public class DockerPanel extends JBScrollPane {
 
     public void setImages(DefaultMutableTreeNode images) {
         this.images = images;
+    }
+
+    public DefaultTreeModel getDt() {
+        return dt;
+    }
+
+    public void setDt(DefaultTreeModel dt) {
+        this.dt = dt;
     }
 }

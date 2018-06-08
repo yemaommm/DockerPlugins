@@ -3,6 +3,9 @@ package toolWindow;
 import com.intellij.openapi.project.Project;
 import dto.docker.ContainerDto;
 import dto.docker.ImageDto;
+import menu.DockerPopupMenu;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import plugins.DockerPlugins;
 
 import javax.swing.tree.DefaultMutableTreeNode;
@@ -10,8 +13,11 @@ import java.io.IOException;
 import java.util.List;
 
 public class DockerUtils {
+    private static Logger LOGGER = LoggerFactory.getLogger(DockerUtils.class);
 
     public final static DockerPlugins dockerPlugins = new DockerPlugins("http://39.105.48.129:2375");
+
+    private static Project project;
 
     public static void setContainer(DefaultMutableTreeNode root, List<ContainerDto> containerDtos){
         root.removeAllChildren();
@@ -32,9 +38,9 @@ public class DockerUtils {
         root.setAllowsChildren(true);
     }
 
-    public static void setImage(DefaultMutableTreeNode root, List<ImageDto> containerDtos){
+    public static void setImage(DefaultMutableTreeNode root, List<ImageDto> imageDtos){
         root.removeAllChildren();
-        for (ImageDto dto : containerDtos) {
+        for (ImageDto dto : imageDtos) {
             StringBuffer name = new StringBuffer("NULL");
             if (dto.getRepoTags() != null && dto.getRepoTags().size() > 0) {
                 name = new StringBuffer(dto.getRepoTags().get(0));
@@ -55,6 +61,7 @@ public class DockerUtils {
     public static void refreshContainer() throws IOException {
         List<ContainerDto> containers = dockerPlugins.getContainers();
         DockerUtils.setContainer(LogTool.getContainers(), containers);
+        LogTool.getLeftPanel().getDt().reload();
     }
 
     /**
@@ -64,10 +71,20 @@ public class DockerUtils {
     public static void refreshImage() throws IOException {
         List<ImageDto> images = dockerPlugins.getImages();
         DockerUtils.setImage(LogTool.getImages(), images);
+        LogTool.getLeftPanel().getDt().reload();
     }
 
-    public static String buildImage(Project project) throws Exception {
+    public static String buildImage() throws Exception {
         String s = dockerPlugins.buildImage(project);
+        System.out.println(s);
         return s;
+    }
+
+    public static Project getProject() {
+        return project;
+    }
+
+    public static void setProject(Project project) {
+        DockerUtils.project = project;
     }
 }

@@ -31,15 +31,15 @@ public class DockerPopupMenu extends JBPopupMenu implements ActionListener {
     }
 
     private void initPopupMenu(){
-        JBMenuItem flash = new JBMenuItem("刷新");
-        flash.addActionListener(this);
-
-        menuItemList.add(flash);
-
+        JBMenuItem flash = this.addMenuItem("刷新");
         menuItemList1.add(flash);
         menuItemList2.add(flash);
+        JBMenuItem build = this.addMenuItem("build image");
+        menuItemList1.add(build);
+        menuItemList2.add(build);
+        menuItemList3.add(build);
 
-        this.add(flash);
+        menuItemList.forEach(DockerPopupMenu.this::add);
     }
 
     @Override
@@ -50,8 +50,12 @@ public class DockerPopupMenu extends JBPopupMenu implements ActionListener {
                 DockerUtils.refreshContainer();
                 DockerUtils.refreshImage();
             }
-        } catch (IOException e1) {
-            LOGGER.error("refresh: ", e);
+            //build image
+            else if (e.getSource().equals(menuItemList.get(1))){
+                DockerUtils.buildImage();
+            }
+        } catch (Exception e1) {
+            LOGGER.error("refresh: ", e1);
         }
     }
 
@@ -74,5 +78,14 @@ public class DockerPopupMenu extends JBPopupMenu implements ActionListener {
 
     public void set3(){
         this.set(menuItemList3);
+    }
+
+    private JBMenuItem addMenuItem(String text){
+        JBMenuItem item = new JBMenuItem(text);
+        item.addActionListener(this);
+
+        menuItemList.add(item);
+
+        return item;
     }
 }
