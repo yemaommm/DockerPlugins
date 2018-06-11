@@ -77,7 +77,7 @@ public class DockerPlugins {
     }
 
     public String deleteContainer(String name) throws IOException {
-        String url = host + "/container/" + name;
+        String url = host + "/containers/" + name + "?v=true&force=true";
         String res = http.any(url, null, "DELETE", null);
 
         return res;
