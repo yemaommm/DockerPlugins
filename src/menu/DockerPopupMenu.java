@@ -2,9 +2,14 @@ package menu;
 
 import com.intellij.openapi.ui.JBMenuItem;
 import com.intellij.openapi.ui.JBPopupMenu;
+import com.intellij.ui.treeStructure.Tree;
+import dto.docker.ContainerNode;
+import dto.docker.ImageNode;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import panel.DockerPanel;
 import toolWindow.DockerUtils;
+import toolWindow.LogTool;
 
 import java.awt.*;
 import java.awt.event.ActionEvent;
@@ -38,6 +43,8 @@ public class DockerPopupMenu extends JBPopupMenu implements ActionListener {
         menuItemList1.add(build);
         menuItemList2.add(build);
         menuItemList3.add(build);
+        JBMenuItem delete = this.addMenuItem("delete");
+        menuItemList3.add(delete);
 
         menuItemList.forEach(DockerPopupMenu.this::add);
     }
@@ -53,6 +60,15 @@ public class DockerPopupMenu extends JBPopupMenu implements ActionListener {
             //build image
             else if (e.getSource().equals(menuItemList.get(1))){
                 DockerUtils.buildImage();
+            }
+            // delete
+            else if (e.getSource().equals(menuItemList.get(2))){
+                Object lastPathComponent = LogTool.getLeftPanel().getTree1().getSelectionPath().getLastPathComponent();
+                if (lastPathComponent instanceof ImageNode){
+                    DockerUtils.deleteImage(((ImageNode)lastPathComponent).getImage().getId());
+                }else if (lastPathComponent instanceof ContainerNode){
+                    DockerUtils.deleteContainer(((ContainerNode)lastPathComponent).getContainer().getId());
+                }
             }
         } catch (Exception e1) {
             LOGGER.error("refresh: ", e1);

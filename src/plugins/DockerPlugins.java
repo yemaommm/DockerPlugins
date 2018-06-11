@@ -68,4 +68,18 @@ public class DockerPlugins {
 
         return post;
     }
+
+    public String deleteImage(String name) throws IOException {
+        String url = host + "/images/" + name;
+        String res = http.any(url, null, "DELETE", null);
+
+        return res;
+    }
+
+    public String deleteContainer(String name) throws IOException {
+        String url = host + "/container/" + name;
+        String res = http.any(url, null, "DELETE", null);
+
+        return res;
+    }
 }

@@ -15,34 +15,32 @@ public class http {
     private static Logger LOGGER = LoggerFactory.getLogger(http.class);
 
     public static String get(String path) throws IOException {
-        HttpURLConnection conn = connect(path);
-        //表示连接
-        conn.connect();
-
-        int code = conn.getResponseCode();
-        LOGGER.info("ResponseCode: " + String.valueOf(code));
-
-        InputStream is = conn.getInputStream();
-        String value = readStream(is);
-
-        is.close();
-
-        return value;
+        return any(path, null, "GET", null);
     }
 
     public static String post(String path, byte[] body, String contentType) throws IOException {
-        HttpURLConnection conn = connect(path);
-        conn.setRequestMethod("POST");
+        return any(path, body, "POST", contentType);
+    }
 
-        if (!"".equals(contentType)){
+    public static String post(String path, byte[] body) throws IOException {
+        return post(path, body, null);
+    }
+
+    public static String any(String path, byte[] body, String method, String contentType) throws IOException {
+        HttpURLConnection conn = connect(path);
+        conn.setRequestMethod(method);
+
+        if (contentType != null && !"".equals(contentType)){
             conn.setRequestProperty("Content-Type", contentType);
         }
 
         conn.connect();
 
-        OutputStream os = conn.getOutputStream();
-        os.write(body);
-        os.flush();
+        if (body != null && body.length > 0){
+            OutputStream os = conn.getOutputStream();
+            os.write(body);
+            os.flush();
+        }
 
         int code = conn.getResponseCode();
         LOGGER.info("ResponseCode: " + String.valueOf(code));
@@ -57,10 +55,6 @@ public class http {
         is.close();
 
         return value;
-    }
-
-    public static String post(String path, byte[] body) throws IOException {
-        return post(path, body, "");
     }
 
     public static HttpURLConnection connect(String path) throws IOException {

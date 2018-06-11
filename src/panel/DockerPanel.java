@@ -22,8 +22,8 @@ public class DockerPanel extends JBScrollPane {
     private DefaultMutableTreeNode images;
     //构造一个treeModel 对象，进行刷新树操作
     private DefaultTreeModel dt;
-    private DockerPopupMenu popupMenu = new DockerPopupMenu("工具栏");
     private Tree tree1;
+    private DockerPopupMenu popupMenu = new DockerPopupMenu("工具栏");
 
     public DockerPanel(DefaultMutableTreeNode containers, DefaultMutableTreeNode images){
         this.containers = containers;
@@ -106,5 +106,13 @@ public class DockerPanel extends JBScrollPane {
 
     public void setDt(DefaultTreeModel dt) {
         this.dt = dt;
+    }
+
+    public Tree getTree1() {
+        return tree1;
+    }
+
+    public void setTree1(Tree tree1) {
+        this.tree1 = tree1;
     }
 }

@@ -5,7 +5,6 @@ import dto.docker.ContainerDto;
 import dto.docker.ContainerNode;
 import dto.docker.ImageDto;
 import dto.docker.ImageNode;
-import menu.DockerPopupMenu;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import plugins.DockerPlugins;
@@ -79,6 +78,22 @@ public class DockerUtils {
     public static String buildImage() throws Exception {
         String s = dockerPlugins.buildImage(project);
         System.out.println(s);
+        return s;
+    }
+
+    public static String deleteImage(String name) throws IOException {
+        String s = dockerPlugins.deleteImage(name);
+        System.out.println(s);
+
+        refreshImage();
+        return s;
+    }
+
+    public static String deleteContainer(String name) throws IOException {
+        String s = dockerPlugins.deleteContainer(name);
+        System.out.println(s);
+
+        refreshContainer();
         return s;
     }
 
